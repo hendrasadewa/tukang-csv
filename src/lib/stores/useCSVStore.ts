@@ -37,7 +37,7 @@ export const useCSVStore = create<State & Action>((set, get) => ({
     const result = await new Promise<ParseResult<Record<string, unknown>>>(
       (resolve) => {
         parse<Record<string, unknown>>(csv, {
-          delimiter: ',',
+          delimitersToGuess: [',', ';'],
           complete(results) {
             resolve(results);
           },
