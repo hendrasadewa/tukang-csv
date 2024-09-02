@@ -11,6 +11,7 @@ interface State {
 interface Action {
   onFileChange(event: ChangeEvent<HTMLInputElement>): void;
   onRemoveFile(index: number): void;
+  onClearFile(): void;
 }
 
 export const useUploaderStore = create<State & Action>((set, get) => ({
@@ -55,5 +56,8 @@ export const useUploaderStore = create<State & Action>((set, get) => ({
     toast.success(`Delete success`, {
       description: `${removed[0].name} has been removed`,
     });
+  },
+  onClearFile() {
+    set({ fileList: null, files: [], status: 'empty' });
   },
 }));

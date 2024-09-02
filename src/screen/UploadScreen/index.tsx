@@ -1,17 +1,18 @@
+import { Heading } from '@radix-ui/themes';
+import { CloudUploadIcon, LoaderIcon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 import { useUploaderStore } from '../../lib/stores/useUploaderStore';
-import { CloudUploadIcon, LoaderIcon } from 'lucide-react';
-import { Heading } from '@radix-ui/themes';
 import FileCard from '../../components/FileCard';
+import { useCSVStore } from '../../lib/stores/useCSVStore';
 
 export default function UploadScreen() {
   const ref = useRef<HTMLInputElement>(null);
-  const [status, files, onFileChange] = useUploaderStore((s) => [
-    s.status,
-    s.files,
-    s.onFileChange,
-  ]);
+
+  const status = useUploaderStore((s) => s.status);
+  const files = useUploaderStore((s) => s.files);
+  const onFileChange = useUploaderStore((s) => s.onFileChange);
+  const parseResult = useCSVStore((s) => s.parseResult);
 
   useEffect(() => {
     if (files.length > 0) {
@@ -23,7 +24,7 @@ export default function UploadScreen() {
     }
 
     ref.current.value = '';
-  }, [files]);
+  }, [files, parseResult]);
 
   return (
     <>
@@ -47,17 +48,17 @@ export default function UploadScreen() {
 
           <input
             id="upload-file-input"
-            type="file"
             className="hidden"
+            type="file"
             onChange={onFileChange}
             ref={ref}
-            multiple
+            accept=".csv"
           />
         </label>
 
         {status === 'loaded' && (
           <>
-            <Heading>Loaded Files ({files.length})</Heading>
+            <Heading>Loaded File</Heading>
             {files.map((file, index) => (
               <FileCard file={file} key={file.name} index={index} />
             ))}

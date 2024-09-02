@@ -16,11 +16,13 @@ interface Props {
   index: number;
 }
 
-export default function FileCard({ file, index }: Props) {
+export default function FileCard({ file }: Props) {
   const { lastModified, name, size, type } = file;
-  const onRemoveClick = useUploaderStore((s) => () => s.onRemoveFile(index));
+  const [selectedField, setSelectedField] = useState<string>('');
+
   const isLoading = useCSVStore((s) => s.status === 'loading');
   const parseResult = useCSVStore((s) => s.parseResult);
+  const unloadCSV = useCSVStore((s) => s.unLoadCSV);
   const loadCSV = useCSVStore((s) => async () => {
     await s.loadCSV(file);
     toast.success('File load success!');
@@ -28,7 +30,10 @@ export default function FileCard({ file, index }: Props) {
     toast.success('File parse success!');
   });
 
-  const [selectedField, setSelectedField] = useState<string>('');
+  const onRemoveClick = useUploaderStore((s) => () => {
+    unloadCSV();
+    s.onClearFile();
+  });
 
   const onFieldChange = (field: string) => {
     setSelectedField(field);
