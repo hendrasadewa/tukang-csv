@@ -1,6 +1,4 @@
-import { parse, ParseResult } from 'papaparse';
-
-export async function fetchFile(file: File) {
+export async function loadCSVFiletoString(file: File) {
   const fileUrl = URL.createObjectURL(file);
   const response = await fetch(fileUrl);
 
@@ -11,35 +9,35 @@ export async function fetchFile(file: File) {
   return await response.text();
 }
 
-export async function loadFile(fileList: FileList) {
-  const [file] = fileList;
-  if (!file) {
-    throw new Error('file is not exists');
+export function copyToClipboard(text: string) {
+  if (!navigator) {
+    return;
   }
-  return await fetchFile(file);
+
+  navigator.clipboard.writeText(text);
 }
 
-export function chunkArray<T = unknown>(arr: Array<T>, size: number) {
-  return Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
-    arr.slice(i * size, i * size + size)
-  );
+export function downloadTextFile(blob: Blob, fileName: string = 'download') {
+  if (!document) {
+    return;
+  }
+
+  const element = document.createElement('a');
+
+  element.href = URL.createObjectURL(blob);
+  element.download = `${fileName}.txt`;
+  document.body.appendChild(element);
+  element.click();
 }
 
-export function parseCSV<T = unknown>(
-  csvText: string,
-  parserCallback: (results: ParseResult<T>) => Array<T>,
-  delimiter = ','
+export function copyOrDownloadFile(
+  text: string,
+  maxLengthToDownload: number = 10_000
 ) {
-  return new Promise<Array<T>>((resolve) => {
-    parse(csvText, {
-      delimiter,
-      skipEmptyLines: true,
-      header: true,
-
-      complete: (result: ParseResult<T>) => {
-        const parsed = parserCallback(result);
-        resolve(parsed);
-      },
-    });
-  });
+  if (text.length <= maxLengthToDownload) {
+    copyToClipboard(text);
+    return;
+  }
+  const blob = new Blob([text], { type: 'text/plain' });
+  downloadTextFile(blob);
 }

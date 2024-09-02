@@ -1,31 +1,12 @@
-import { Heading } from '@radix-ui/themes';
 import { CloudUploadIcon, LoaderIcon } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { Heading } from '@radix-ui/themes';
 
-import { useUploaderStore } from '../../lib/stores/useUploaderStore';
-import FileCard from '../../components/FileCard';
-import { useCSVStore } from '../../lib/stores/useCSVStore';
+import { FileCard } from '@/lib/components';
 
-export default function UploadScreen() {
-  const ref = useRef<HTMLInputElement>(null);
+import useUploadPage from './hooks/useUploadPage';
 
-  const status = useUploaderStore((s) => s.status);
-  const files = useUploaderStore((s) => s.files);
-  const onFileChange = useUploaderStore((s) => s.onFileChange);
-  const parseResult = useCSVStore((s) => s.parseResult);
-
-  useEffect(() => {
-    if (files.length > 0) {
-      return;
-    }
-
-    if (!ref.current) {
-      return;
-    }
-
-    ref.current.value = '';
-  }, [files, parseResult]);
-
+export function UploadPage() {
+  const { status, files, onFileChange, fileInputRef } = useUploadPage();
   return (
     <>
       <div className="flex flex-col gap-4 w-full">
@@ -51,8 +32,9 @@ export default function UploadScreen() {
             className="hidden"
             type="file"
             onChange={onFileChange}
-            ref={ref}
+            ref={fileInputRef}
             accept=".csv"
+            multiple
           />
         </label>
 
