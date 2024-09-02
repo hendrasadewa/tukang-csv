@@ -8,7 +8,7 @@ export default function AppTemplate() {
       <Flex align="center" justify="center" p="2" gap="1" mb="4" asChild>
         <header>
           <FileIcon />
-          <Heading align="center">CSV Toolkit</Heading>
+          <Heading align="center">Tukang CSV</Heading>
         </header>
       </Flex>
       <Box asChild>
