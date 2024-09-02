@@ -64,7 +64,9 @@ export default function FileCard({ file, index }: Props) {
         <div className="flex items-center gap-2">
           <FileTextIcon size={42} strokeWidth={1} />
           <div className="flex flex-col">
-            <h3 className="text-lg font-bold">{name}</h3>
+            <h3 className="text-lg font-bold">
+              {name.length > 30 ? `${name.substring(0, 25)}...` : name}
+            </h3>
             <div className="flex items-center gap-2">
               <span>{type}</span>
               <span>{new Date(lastModified).toLocaleDateString()}</span>
