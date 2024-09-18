@@ -11,10 +11,10 @@ export function ListItemInfo({
   sizeInBytes,
   modifiedAt,
 }: Props) {
+  const displayDate = new Date(modifiedAt).toLocaleDateString();
+  const displaySize = Math.round(sizeInBytes / 1_000);
   const displayFileName =
     fileName.length > 30 ? `${fileName.substring(0, 25)}...` : fileName;
-  const displayDate = new Date(modifiedAt).toLocaleDateString();
-  const displaySize = Math.round(sizeInBytes / 1000);
 
   return (
     <div className="flex items-center gap-2">

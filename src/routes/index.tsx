@@ -1,2 +1,1 @@
-export { UploadPage } from './UploadPage';
-export { HomePage } from './HomePage';
+export { FilesPage } from "./FilesPage";

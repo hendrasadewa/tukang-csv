@@ -1,12 +1,13 @@
-import { create } from 'zustand';
 import { nanoid } from 'nanoid';
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
 import { CSVFileState } from '@/lib/dto/csv';
 import { parseCSV } from '@/lib/utils/csv';
-import { loadCSVFiletoString } from '@/lib/utils/file';
 
 interface State {
   files: CSVFileState[];
+  isLoading: boolean;
 }
 
 interface Action {
@@ -14,37 +15,35 @@ interface Action {
   loadFile(file: File | null): Promise<void>;
   removeFile(id: string): void;
   parseFile(id: string): void;
+  unParseFile(id: string): void;
 }
 
 const initialState: State = {
   files: [],
+  isLoading: false,
 };
 
-export const useFileStore = create<State & Action>((set, get) => ({
-  ...initialState,
+type Store = State & Action;
 
-  async loadFiles(files) {
-    if (files.length <= 0) {
-      return;
-    }
-    const { loadFile } = get();
+export const useFileStore = create<Store>()(
+  immer((set, get) => ({
+    ...initialState,
 
-    for (const file of files) {
-      await loadFile(file);
-    }
-  },
+    async loadFile(file) {
+      if (!file) {
+        return;
+      }
+      const fileUrl = URL.createObjectURL(file);
+      const response = await fetch(fileUrl);
 
-  async loadFile(file) {
-    if (!file) {
-      return;
-    }
+      if (!response.ok) {
+        throw new Error('Failed to fetch the file');
+      }
 
-    const csv = await loadCSVFiletoString(file);
+      const csv = await response.text();
 
-    set((prev) => ({
-      files: [
-        ...prev.files,
-        {
+      set((draft) => {
+        draft.files.push({
           id: nanoid(),
           fileBlob: new Blob([csv], { type: 'text/plain' }),
           fileName: file.name,
@@ -53,31 +52,76 @@ export const useFileStore = create<State & Action>((set, get) => ({
           sizeInBytes: file.size,
           status: 'loaded',
           csv,
-        },
-      ],
-    }));
-  },
+        });
+      });
+    },
 
-  removeFile(id) {
-    set((prev) => ({
-      files: prev.files.filter((item) => item.id !== id),
-    }));
-  },
+    async loadFiles(files) {
+      set((draft) => {
+        draft.isLoading = true;
+      });
 
-  async parseFile(id) {
-    const { files } = get();
-    const fileIndex = files.findIndex((item) => item.id === id);
+      if (files.length <= 0) {
+        return;
+      }
 
-    if (fileIndex < 0) {
-      return;
-    }
-    const file = files[fileIndex];
-    const parseResult = await parseCSV(file.csv);
+      for (const file of files) {
+        await get().loadFile(file);
+      }
 
-    set((prev) => ({
-      files: prev.files.map((file) =>
-        file.id === id ? { ...file, parseResult, status: 'parsed' } : file
-      ),
-    }));
-  },
-}));
+      set((draft) => {
+        draft.isLoading = false;
+      });
+    },
+
+    removeFile(id) {
+      set((draft) => {
+        const fileIndex = draft.files.findIndex((file) => file.id === id);
+        if (fileIndex < 0) {
+          return;
+        }
+
+        draft.files.splice(fileIndex, 1);
+      });
+    },
+
+    async parseFile(id) {
+      set((draft) => {
+        draft.isLoading = true;
+      });
+
+      const { files } = get();
+
+      const fileIndex = files.findIndex((item) => item.id === id);
+      if (fileIndex < 0) {
+        return;
+      }
+
+      const file = files[fileIndex];
+      const parseResult = await parseCSV(file.csv);
+
+      set((draft) => {
+        draft.files[fileIndex].status = 'parsed';
+        draft.files[fileIndex].parseResult = parseResult;
+        draft.isLoading = false;
+      });
+    },
+
+    async unParseFile(id) {
+      set((draft) => {
+        draft.isLoading = true;
+      });
+
+      set((draft) => {
+        const fileIndex = draft.files.findIndex((item) => item.id === id);
+        if (fileIndex < 0) {
+          return;
+        }
+
+        draft.files[fileIndex].status = 'loaded';
+        draft.files[fileIndex].parseResult = undefined;
+        draft.isLoading = false;
+      });
+    },
+  }))
+);

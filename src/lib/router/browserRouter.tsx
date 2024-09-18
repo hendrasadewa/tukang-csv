@@ -1,19 +1,19 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { AppTemplate } from '@/lib/components/AppTemplate';
-import { HomePage, UploadPage } from '@/routes';
+import { createBrowserRouter } from "react-router-dom";
+import { AppTemplate } from "@/lib/components/AppTemplate";
+import { FilesPage } from "@/routes";
 
 export const browserRouter = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <AppTemplate />,
     children: [
       {
-        path: '/',
-        element: <UploadPage />,
+        path: "/",
+        element: <>Hello</>,
       },
       {
-        path: '/upload',
-        element: <HomePage />,
+        path: "/files",
+        element: <FilesPage />,
       },
     ],
   },
