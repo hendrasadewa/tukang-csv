@@ -6,14 +6,14 @@ import { Toaster } from 'sonner';
 
 import '@radix-ui/themes/styles.css';
 
+import router from './router';
 import './index.css';
-import { browserRouter } from '@/lib/router/browserRouter';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Theme>
       <Toaster position="bottom-center" />
-      <RouterProvider router={browserRouter} />
+      <RouterProvider router={router} />
     </Theme>
   </StrictMode>
 );
