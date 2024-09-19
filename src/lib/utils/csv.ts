@@ -1,4 +1,9 @@
-import { parse, ParseResult } from 'papaparse';
+import { parse, ParseConfig, ParseResult } from 'papaparse';
+
+const defaultConfig: ParseConfig = {
+  delimitersToGuess: [',', ';'],
+  header: true,
+};
 
 export function parseCSV<T = Record<string, unknown>>(
   text: string,
@@ -7,6 +12,7 @@ export function parseCSV<T = Record<string, unknown>>(
 ) {
   const parsePromise = new Promise<ParseResult<T>>((resolve, rejects) => {
     parse<T>(text, {
+      ...defaultConfig,
       delimitersToGuess: delimiter,
       header: withHeader,
       complete(results) {
@@ -15,6 +21,7 @@ export function parseCSV<T = Record<string, unknown>>(
       error(error: unknown) {
         rejects(error);
       },
+      worker: true,
     });
   });
 

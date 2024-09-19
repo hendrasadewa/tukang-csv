@@ -14,7 +14,7 @@ interface Action {
   loadFiles(files: File[]): Promise<void>;
   loadFile(file: File | null): Promise<void>;
   removeFile(id: string): void;
-  parseFile(id: string): void;
+  parseFile(id: string): Promise<void>;
   unParseFile(id: string): void;
 }
 

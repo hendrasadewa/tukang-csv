@@ -2,23 +2,21 @@ import { Button, Card, Flex, Text } from '@radix-ui/themes';
 import { DownloadIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { ParseResult } from 'papaparse';
 
 import { copyOrDownloadFile } from '@/lib/utils/file';
 
 import { ColumnLabel } from './components/ColumnLabel';
 
 interface Props {
-  fileId: string;
   columns: string[];
-  parseResult?: ParseResult<Record<string, unknown>>;
+  data: string[][];
 }
 
 interface FormSchema {
   selectedColumn: string[];
 }
 
-export function PropertyMapper({ columns, parseResult }: Props) {
+export default function PropertyMapper({ columns, data = [] }: Props) {
   const { register, handleSubmit } = useForm<FormSchema>({
     defaultValues: {
       selectedColumn: [],
@@ -30,14 +28,12 @@ export function PropertyMapper({ columns, parseResult }: Props) {
       toast.error('Please select one of field before download');
       return;
     }
-    if (!parseResult) {
+    if (!data) {
       toast.error('File does not exists');
       return;
     }
 
-    const { data } = parseResult;
-
-    copyOrDownloadFile(JSON.stringify(data), 1);
+    copyOrDownloadFile(JSON.stringify(data.flat()), 1);
     toast.success('Download success!');
   };
 
