@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { AppTemplate } from '@/lib/components/AppTemplate';
 
-import { FilesPage } from './FilesPage';
+import { DashboardPage } from './DashboardPage';
 
 const browserRouter = createBrowserRouter([
   {
@@ -13,8 +13,8 @@ const browserRouter = createBrowserRouter([
         element: <>Hello</>,
       },
       {
-        path: '/files',
-        element: <FilesPage />,
+        path: '/dashboard',
+        element: <DashboardPage />,
       },
     ],
   },

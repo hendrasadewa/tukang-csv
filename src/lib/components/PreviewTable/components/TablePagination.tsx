@@ -36,7 +36,7 @@ export default function TablePagination({
     <Flex align="center" gap="2" p="2">
       <Button
         disabled={isPrevDisabled}
-        variant="outline"
+        variant="ghost"
         onClick={handleFirstClick}
         size="1"
         color="gray"
@@ -45,19 +45,19 @@ export default function TablePagination({
       </Button>
       <Button
         disabled={isPrevDisabled}
-        variant="outline"
+        variant="ghost"
         onClick={onPreviousClick}
         size="1"
         color="gray"
       >
         <ChevronLeftIcon />
       </Button>
-      <Button variant="outline" size="1" color="gray" disabled>
+      <Button variant="ghost" size="1" color="gray" mx="3" disabled>
         {page}
       </Button>
       <Button
         disabled={isNextDisabled}
-        variant="outline"
+        variant="ghost"
         onClick={onNextClick}
         size="1"
         color="gray"
@@ -67,7 +67,7 @@ export default function TablePagination({
 
       <Button
         disabled={isNextDisabled}
-        variant="outline"
+        variant="ghost"
         onClick={handleLastClick}
         size="1"
         color="gray"

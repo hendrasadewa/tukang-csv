@@ -1,14 +1,19 @@
+import { Badge, Flex, Spinner, Table, Text } from '@radix-ui/themes';
+
 import { usePreviewStore } from '@/lib/stores/usePreviewStore';
-import { Box, Card, Flex, Heading, Separator, Table } from '@radix-ui/themes';
+import useTableData from '@/lib/hooks/useTableData';
+import { numberFormatter } from '@/lib/utils/formatter';
 
 import TableBody from './components/TableBody';
 import TableHeader from './components/TableHeader';
 import TablePagination from './components/TablePagination';
 import TablePerPage from './components/TablePerPage';
-import TableSearch from './components/TableSearch';
-import useTableData from '@/lib/hooks/useTableData';
 
-export default function PreviewTable() {
+interface Props {
+  isLoading: boolean;
+}
+
+export default function PreviewTable({ isLoading }: Props) {
   const columns = usePreviewStore((s) => s.columns);
   const data = usePreviewStore((s) => s.data);
 
@@ -18,16 +23,18 @@ export default function PreviewTable() {
     pagination: { page, perPage, totalItem, totalPage },
   } = useTableData(data);
 
+  const isTableLoaded = columns.length > 0;
+
   return (
-    <Card>
-      <Box px="2" py="1">
-        <Heading>Browse</Heading>
-        <Flex align="center" justify="between" mb="2">
-          <TableSearch />
-          <Flex align="center" gap="2">
-            <Flex>
-              Showing {displayed.length} of {totalItem} data
-            </Flex>
+    <>
+      <Flex align="center" justify="between">
+        <div />
+        {isTableLoaded && (
+          <Flex align="center" gap="2" px="2" justify="between">
+            <Badge variant="outline">
+              {(page - 1) * perPage + 1} - {page * perPage} of &nbsp;
+              {numberFormatter.format(totalItem)} data
+            </Badge>
             <TablePerPage
               onPerPageChanged={onPerPageChanged}
               perPage={perPage}
@@ -40,13 +47,27 @@ export default function PreviewTable() {
               onNextClick={onNextPage}
             />
           </Flex>
-        </Flex>
-        <Separator size="4" />
-        <Table.Root>
-          <TableHeader columns={columns} />
-          <TableBody columns={columns} displayedData={displayed} />
-        </Table.Root>
-      </Box>
-    </Card>
+        )}
+      </Flex>
+      <div className="relative">
+        {isLoading && (
+          <Flex
+            align="center"
+            justify="center"
+            gap="2"
+            className="w-full h-full absolute bg-white/90 z-10"
+          >
+            <Spinner />
+            <Text>Loading Preview...</Text>
+          </Flex>
+        )}
+        {isTableLoaded && (
+          <Table.Root>
+            <TableHeader columns={columns} />
+            <TableBody columns={columns} displayedData={displayed} />
+          </Table.Root>
+        )}
+      </div>
+    </>
   );
 }

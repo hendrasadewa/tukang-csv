@@ -1,8 +1,8 @@
-import { Box } from '@radix-ui/themes';
-import { Loader } from './components/Loader';
-import { LabelDisplay } from './components/LabelDisplay';
-import { useFileUploader } from './hooks/useFileUploader';
 import { useEffect } from 'react';
+import { FilePlusIcon } from 'lucide-react';
+import { Flex, Spinner } from '@radix-ui/themes';
+
+import { useFileUploader } from '../../hooks/useFileUploader';
 
 interface Props {
   isLoading?: boolean;
@@ -10,7 +10,7 @@ interface Props {
   onFileChange: (files: File[]) => Promise<void>;
 }
 
-export function FileUploader({
+export default function FileUploader({
   isLoading = false,
   isFileEmpty = true,
   onFileChange,
@@ -32,23 +32,20 @@ export function FileUploader({
   }, [fileInputRef, isFileEmpty]);
 
   return (
-    <Box
-      className="bg-slate-50/20 h-48 w-full border-4 border-dashed  border-slate-300 rounded-lg"
-      p="2"
-      asChild
-    >
-      <label htmlFor="file-uploader">
-        {isLoading ? <Loader /> : <LabelDisplay />}
-        <input
-          id="file-uploader"
-          className="hidden"
-          type="file"
-          onChange={handleFileChange}
-          ref={fileInputRef}
-          accept=".csv"
-          multiple
-        />
-      </label>
-    </Box>
+    <label htmlFor="file-uploader">
+      {isLoading && <Spinner />}
+      <Flex align="center" justify="center" className="h-full">
+        {isLoading ? <Spinner /> : <FilePlusIcon strokeWidth="1" />}
+      </Flex>
+      <input
+        id="file-uploader"
+        className="hidden"
+        type="file"
+        onChange={handleFileChange}
+        ref={fileInputRef}
+        accept=".csv"
+        multiple
+      />
+    </label>
   );
 }

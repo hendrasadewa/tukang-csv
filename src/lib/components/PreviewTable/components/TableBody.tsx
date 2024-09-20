@@ -9,7 +9,7 @@ export default function TableBody({ columns, displayedData = [] }: Props) {
   return (
     <Table.Body>
       {displayedData.map((row, rowIndex) => (
-        <Table.Row key={`data-${rowIndex}`}>
+        <Table.Row className="hover:bg-blue-50" key={`data-${rowIndex}`}>
           {columns.map((column, columnIndex) => (
             <Table.Cell
               style={{ whiteSpace: 'nowrap' }}
