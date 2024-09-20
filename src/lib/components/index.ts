@@ -1,1 +1,0 @@
-export { AppTemplate } from './AppTemplate';

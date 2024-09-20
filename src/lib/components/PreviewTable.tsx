@@ -4,10 +4,10 @@ import { usePreviewStore } from '@/lib/stores/usePreviewStore';
 import useTableData from '@/lib/hooks/useTableData';
 import { numberFormatter } from '@/lib/utils/formatter';
 
-import TableBody from './components/TableBody';
-import TableHeader from './components/TableHeader';
-import TablePagination from './components/TablePagination';
-import TablePerPage from './components/TablePerPage';
+import TableBody from './TableBody';
+import TableHeader from './TableHeader';
+import TablePagination from './TablePagination';
+import TablePerPage from './TablePerPage';
 
 interface Props {
   isLoading: boolean;

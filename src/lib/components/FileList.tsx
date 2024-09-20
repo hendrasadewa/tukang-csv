@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@radix-ui/themes';
 
 import { CSVFileState } from '@/lib/dto/csv';
 
-import { ListItemInfo } from './components/ListItemInfo';
+import { FileListItem } from './FileListItem';
 
 interface Props {
   selectedId: string;
@@ -23,7 +23,7 @@ export default function FileList({
       {files.length <= 0 && <Text>File is empty</Text>}
       <Flex direction="column" gap="2">
         {files.map(({ fileName, sizeInBytes, modifiedAt, fileType, id }) => (
-          <ListItemInfo
+          <FileListItem
             id={id}
             fileName={fileName}
             sizeInBytes={sizeInBytes}

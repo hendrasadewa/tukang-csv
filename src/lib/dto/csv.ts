@@ -1,6 +1,8 @@
 import { ParseResult } from 'papaparse';
 
-export interface CSVFileState<T = Record<string, unknown>> {
+export type RowData = Record<string, string>;
+
+export interface CSVFileState<T = RowData> {
   id: string;
   fileBlob: Blob;
   fileName: string;

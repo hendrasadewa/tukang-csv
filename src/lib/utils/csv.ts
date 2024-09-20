@@ -1,11 +1,12 @@
 import { parse, ParseConfig, ParseResult } from 'papaparse';
+import { RowData } from '../dto/csv';
 
 const defaultConfig: ParseConfig = {
   delimitersToGuess: [',', ';'],
   header: true,
 };
 
-export function parseCSV<T = Record<string, unknown>>(
+export function parseCSV<T = RowData>(
   text: string,
   delimiter: string[] = [',', ';'],
   withHeader: boolean = true

@@ -13,7 +13,7 @@ interface Props {
   isLoading: boolean;
 }
 
-export function ListItemInfo({
+export function FileListItem({
   id,
   fileName = '',
   fileType,

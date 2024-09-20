@@ -1,3 +1,5 @@
+import { RowData } from './csv';
+
 export interface Pagination {
   page: number;
   perPage: number;
@@ -14,7 +16,7 @@ export interface PagingActions {
   onPerPageChanged(perPage: number): void;
 }
 
-export interface DataSource<T = Record<string, string>> {
+export interface DataSource<T = RowData> {
   displayed: Array<T>;
   pagedData: Array<T[]>;
 }

@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 import { copyOrDownloadFile } from '@/lib/utils/file';
 
-import { ColumnLabel } from './components/ColumnLabel';
+import { ColumnLabel } from './ColumnLabel';
 
 interface Props {
   columns: string[];
