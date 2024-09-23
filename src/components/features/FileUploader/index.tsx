@@ -3,26 +3,25 @@ import { FilePlusIcon } from 'lucide-react';
 import { Flex, Spinner } from '@radix-ui/themes';
 
 import { useFileUploader } from '@/hooks/useFileUploader';
+import { useAppStore } from '@/stores/useAppStore';
+import { useShallow } from 'zustand/react/shallow';
 
-interface Props {
-  isLoading?: boolean;
-  isFileEmpty?: boolean;
-  onFileChange: (files: File[]) => Promise<void>;
-}
-
-export function FileUploader({
-  isLoading = false,
-  isFileEmpty = true,
-  onFileChange,
-}: Props) {
+export function FileUploader() {
+  const { onLoadFiles, isFileEmpty, isLoading } = useAppStore(
+    useShallow((s) => ({
+      onLoadFiles: s.loadFiles,
+      isFileEmpty: s.fileIds.length <= 0,
+      isLoading: s.isLoading,
+    }))
+  );
   const { fileInputRef, fileList, handleFileChange } = useFileUploader();
 
   useEffect(() => {
     if (fileList) {
-      onFileChange([...fileList]);
+      onLoadFiles([...fileList]);
       return;
     }
-  }, [fileList, onFileChange]);
+  }, [fileList, onLoadFiles]);
 
   useEffect(() => {
     if (!isFileEmpty || !fileInputRef.current) {

@@ -2,26 +2,29 @@ import { Badge, Flex, Spinner, Table, Text } from '@radix-ui/themes';
 
 import { useTableData } from '@/hooks/useTableData';
 import { numberFormatter } from '@/utils/formatter';
-import { RowData } from '@/types/csv';
 
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { TablePagination } from './TablePagination';
 import { TablePerPage } from './TablePerPage';
+import { useAppStore } from '@/stores/useAppStore';
+import { useShallow } from 'zustand/react/shallow';
 
-interface Props {
-  dataSource: RowData[];
-  columns: string[];
-  isLoading: boolean;
-  isLoaded: boolean;
-}
+export function PreviewTable() {
+  const {
+    dataSource = [],
+    columns = [],
+    isLoading = false,
+    isLoaded = false,
+  } = useAppStore(
+    useShallow((s) => ({
+      dataSource: s.csvRecord[s.selectedFileId]?.json,
+      columns: s.csvRecord[s.selectedFileId]?.fields,
+      isLoaded: s.csvRecord[s.selectedFileId]?.status === 'parsed',
+      isLoading: s.isDashboardLoading,
+    }))
+  );
 
-export function PreviewTable({
-  dataSource = [],
-  columns = [],
-  isLoading = false,
-  isLoaded = false,
-}: Props) {
   const {
     paginationActions: {
       onChangePage,

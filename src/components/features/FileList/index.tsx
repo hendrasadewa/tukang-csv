@@ -1,27 +1,23 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
 
-import { StoredFile } from '@/types/file';
-
 import { FileListItem } from './FileListItem';
+import { useAppStore } from '@/stores/useAppStore';
+import { useShallow } from 'zustand/react/shallow';
 
-interface Props {
-  selectedId: string;
-  files: StoredFile[];
-  onPreviewClick(id: string): Promise<void>;
-  isLoading: boolean;
-}
-
-export function FileList({
-  selectedId,
-  files,
-  onPreviewClick,
-  isLoading,
-}: Props) {
+export function FileList() {
+  const { selectedFileId, fileList, onSelectFile, isLoading } = useAppStore(
+    useShallow((s) => ({
+      fileList: s.fileIds.map((id) => s.fileRecord[id]),
+      selectedFileId: s.selectedFileId,
+      isLoading: s.isLoading,
+      onSelectFile: s.onSelectFile,
+    }))
+  );
   return (
     <Box p="2">
-      {files.length <= 0 && <Text>File is empty</Text>}
+      {fileList.length <= 0 && <Text>File is empty</Text>}
       <Flex direction="column" gap="2">
-        {files.map(({ file, id }) => (
+        {fileList.map(({ file, id }) => (
           <FileListItem
             id={id}
             fileName={file.name}
@@ -29,8 +25,8 @@ export function FileList({
             modifiedAt={file.lastModified}
             fileType={file.type}
             key={id}
-            onClick={onPreviewClick}
-            isActive={id === selectedId}
+            onClick={onSelectFile}
+            isActive={id === selectedFileId}
             isLoading={isLoading}
           />
         ))}
