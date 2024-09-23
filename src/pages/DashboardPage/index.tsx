@@ -1,92 +1,52 @@
-import { Button, Flex, Heading, Separator, Tooltip } from '@radix-ui/themes';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { FileJsonIcon, TrashIcon } from 'lucide-react';
+import { Flex, Heading, Tooltip } from '@radix-ui/themes';
 
-import { useFileStore } from '@/lib/stores/useFileStore';
-import { usePreviewStore } from '@/lib/stores/usePreviewStore';
 import FileList from '@/lib/components/FileList';
 import PreviewTable from '@/lib/components/PreviewTable';
 import FrameTemplate from '@/lib/components/FrameTemplate';
 import FileUploader from '@/lib/components/FileUploader';
+import { useFileManagerStore } from '@/lib/stores/useFileManagerStore';
+import { useDashboardStore } from '@/lib/stores/useDashboardStore';
+import { useCSVStore } from '@/lib/stores/useCSVStore';
 
 export function DashboardPage() {
-  const [files, loadFiles, parseFile, unParseFile] = useFileStore((s) => [
-    s.files,
-    s.loadFiles,
-    s.parseFile,
-    s.unParseFile,
-    s.removeFile,
-  ]);
-  const [loadPreview, unLoadPreview] = usePreviewStore((s) => [
-    s.loadPreview,
-    s.unLoadPreview,
-  ]);
-  const [selected, setSelected] = useState('');
-  const [isLoading, setLoading] = useState(false);
-
-  const handlePreviewClick = async (id: string) => {
-    try {
-      setLoading(true);
-      if (id === selected) {
-        unLoadPreview();
-        unParseFile(id);
-        setSelected('');
-        return;
-      }
-      setSelected(id);
-      await parseFile(id);
-      await loadPreview(id);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleLoadFiles = useFileManagerStore((s) => s.loadFiles);
+  const csvFiles = useFileManagerStore((s) =>
+    s.ids.map((id) => s.fileRecord[id])
+  );
+  const selected = useDashboardStore((s) => s.selected);
+  const isLoading = useDashboardStore((s) => s.isLoading);
+  const handlePreviewClick = useDashboardStore((s) => s.onSelectFile);
+  const csv = useCSVStore((s) => s.csvList[selected]);
 
   return (
     <Flex className="min-h-screen">
-      <div className="h-full border-r-0 w-1/3">
+      <div className="h-full w-1/3">
         <FrameTemplate
           header={
-            <>
-              <Heading>Files</Heading>
+            <Flex align="center" justify="between">
+              <Heading size="5">Tukang CSV</Heading>
               <Tooltip content="Upload File">
-                <FileUploader onFileChange={loadFiles} />
+                <FileUploader onFileChange={handleLoadFiles} />
               </Tooltip>
-            </>
+            </Flex>
           }
         >
           <FileList
             selectedId={selected}
-            files={files}
-            onLoadFile={loadFiles}
+            files={csvFiles}
             onPreviewClick={handlePreviewClick}
             isLoading={isLoading}
           />
         </FrameTemplate>
       </div>
       <div className="h-screen border-l w-2/3">
-        <FrameTemplate
-          header={
-            <Flex align="center" px="2" gap="2">
-              <Tooltip content="Export to JSON">
-                <Button variant="ghost">
-                  <FileJsonIcon strokeWidth="1" color="gray" />
-                </Button>
-              </Tooltip>
-              <Separator orientation="vertical" size="1" />
-              <Tooltip content="Remove File">
-                <Button variant="ghost">
-                  <TrashIcon strokeWidth="1" color="gray" />
-                </Button>
-              </Tooltip>
-            </Flex>
-          }
-        >
-          <PreviewTable isLoading={isLoading} />
+        <FrameTemplate header={<></>}>
+          <PreviewTable
+            columns={csv?.fields}
+            dataSource={csv?.json}
+            isLoading={isLoading}
+            isLoaded={csv?.status === 'parsed'}
+          />
         </FrameTemplate>
       </div>
     </Flex>

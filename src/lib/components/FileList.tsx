@@ -1,13 +1,11 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
 
-import { CSVFileState } from '@/lib/dto/csv';
-
+import { StoredFile } from '../types/file';
 import { FileListItem } from './FileListItem';
 
 interface Props {
   selectedId: string;
-  files: CSVFileState<Record<string, unknown>>[];
-  onLoadFile(files: File[]): Promise<void>;
+  files: StoredFile[];
   onPreviewClick(id: string): Promise<void>;
   isLoading: boolean;
 }
@@ -22,13 +20,13 @@ export default function FileList({
     <Box p="2">
       {files.length <= 0 && <Text>File is empty</Text>}
       <Flex direction="column" gap="2">
-        {files.map(({ fileName, sizeInBytes, modifiedAt, fileType, id }) => (
+        {files.map(({ file, id }) => (
           <FileListItem
             id={id}
-            fileName={fileName}
-            sizeInBytes={sizeInBytes}
-            modifiedAt={modifiedAt}
-            fileType={fileType}
+            fileName={file.name}
+            sizeInBytes={file.size}
+            modifiedAt={file.lastModified}
+            fileType={file.type}
             key={id}
             onClick={onPreviewClick}
             isActive={id === selectedId}

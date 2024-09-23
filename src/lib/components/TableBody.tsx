@@ -1,8 +1,9 @@
 import { Table } from '@radix-ui/themes';
+import { RowData } from '../types/csv';
 
 interface Props {
   columns: Array<string>;
-  displayedData: Array<Record<string, string>>;
+  displayedData: Array<RowData>;
 }
 
 export default function TableBody({ columns, displayedData = [] }: Props) {

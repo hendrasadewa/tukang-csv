@@ -16,6 +16,14 @@ export interface PagingActions {
   onPerPageChanged(perPage: number): void;
 }
 
+export interface Filters {
+  keyword: string;
+}
+
+export interface FilterActions {
+  onSearch(field: string, keyword: string): void;
+}
+
 export interface DataSource<T = RowData> {
   displayed: Array<T>;
   pagedData: Array<T[]>;

@@ -5,15 +5,15 @@ import { Theme } from '@radix-ui/themes';
 import { Toaster } from 'sonner';
 
 import '@radix-ui/themes/styles.css';
-import './index.css';
+import browserRouter from './browserRouter';
 
-import router from './lib/components/BrowserRouter';
+import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Theme>
       <Toaster position="bottom-center" />
-      <RouterProvider router={router} />
+      <RouterProvider router={browserRouter} />
     </Theme>
   </StrictMode>
 );

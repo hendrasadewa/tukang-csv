@@ -2,6 +2,14 @@ import { ParseResult } from 'papaparse';
 
 export type RowData = Record<string, string>;
 
+export interface CSV {
+  id: string;
+  text: string;
+  json: Array<RowData>;
+  fields: string[];
+  status: 'unparsed' | 'parsed';
+}
+
 export interface CSVFileState<T = RowData> {
   id: string;
   fileBlob: Blob;
@@ -11,5 +19,5 @@ export interface CSVFileState<T = RowData> {
   csv: string;
   modifiedAt: number;
   parseResult?: ParseResult<T>;
-  status: 'loaded' | 'parsed';
+  status: 'initial' | 'loaded' | 'parsed';
 }

@@ -3,7 +3,7 @@ import { AppTemplate } from '@/lib/components/AppTemplate';
 
 import { DashboardPage } from '@/pages/DashboardPage';
 
-const BrowserRouter = createBrowserRouter([
+const browserRouter = createBrowserRouter([
   {
     path: '/',
     element: <AppTemplate />,
@@ -20,4 +20,4 @@ const BrowserRouter = createBrowserRouter([
   },
 ]);
 
-export default BrowserRouter;
+export default browserRouter;

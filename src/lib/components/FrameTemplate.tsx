@@ -8,17 +8,13 @@ interface Props {
 
 export default function FrameTemplate({ header, children }: Props) {
   return (
-    <Box className="w-full relative">
-      <Flex
-        className="h-12 px-2 border-b"
-        align="center"
-        justify="between"
-        width="100%"
-        asChild
-      >
+    <Flex direction="column">
+      <Box className="h-12 p-2 border-b" width="100%" asChild>
         <header>{header}</header>
+      </Box>
+      <Flex direction="column" flexGrow="1">
+        {children}
       </Flex>
-      <Box>{children}</Box>
-    </Box>
+    </Flex>
   );
 }
