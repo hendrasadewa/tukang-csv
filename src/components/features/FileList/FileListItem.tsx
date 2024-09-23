@@ -1,6 +1,7 @@
-import { numberFormatter } from '@/lib/utils/formatter';
 import { Badge, Card } from '@radix-ui/themes';
 import { toast } from 'sonner';
+
+import { numberFormatter } from '@/utils/formatter';
 
 interface Props {
   id: string;

@@ -4,7 +4,7 @@ interface Props {
   columns: string[];
 }
 
-export default function TableHeader({ columns }: Props) {
+export function TableHeader({ columns }: Props) {
   return (
     <Table.Header>
       <Table.Row>

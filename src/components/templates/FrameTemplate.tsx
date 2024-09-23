@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-export default function FrameTemplate({ header, children }: Props) {
+export function FrameTemplate({ header, children }: Props) {
   return (
     <Flex direction="column">
       <Box className="h-12 p-2 border-b" width="100%" asChild>

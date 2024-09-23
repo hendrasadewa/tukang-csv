@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { AppTemplate } from '@/lib/components/AppTemplate';
 
+import { AppTemplate } from '@/components/templates/AppTemplate';
 import { DashboardPage } from '@/pages/DashboardPage';
 
-const browserRouter = createBrowserRouter([
+export const browserRouter = createBrowserRouter([
   {
     path: '/',
     element: <AppTemplate />,
@@ -19,5 +19,3 @@ const browserRouter = createBrowserRouter([
     ],
   },
 ]);
-
-export default browserRouter;

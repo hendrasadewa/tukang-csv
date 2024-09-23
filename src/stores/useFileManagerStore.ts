@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { nanoid } from 'nanoid';
 
-import { StoredFile } from '../types/file';
-import { asyncErrorHandler } from '../utils/errorHandler';
+import { StoredFile } from '@/types/file';
+import { commonErrorHandler } from '@/utils/errorHandler';
 
 interface State {
   ids: string[];
@@ -35,7 +35,7 @@ export const useFileManagerStore = create<State & Actions>()(
           draft.fileRecord[id] = { id, file };
         });
       } catch (error) {
-        asyncErrorHandler(error);
+        commonErrorHandler(error);
       }
     },
 

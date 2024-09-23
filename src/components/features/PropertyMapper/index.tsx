@@ -3,7 +3,7 @@ import { DownloadIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { copyOrDownloadFile } from '@/lib/utils/file';
+import { copyOrDownloadFile } from '@/utils/file';
 
 import { ColumnLabel } from './ColumnLabel';
 
@@ -16,7 +16,7 @@ interface FormSchema {
   selectedColumn: string[];
 }
 
-export default function PropertyMapper({ columns, data = [] }: Props) {
+export function PropertyMapper({ columns, data = [] }: Props) {
   const { register, handleSubmit } = useForm<FormSchema>({
     defaultValues: {
       selectedColumn: [],

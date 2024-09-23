@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-import { DataSource, Pagination, PagingActions } from '../types/table';
-import { chunkArray } from '../utils/arrays';
+import { DataSource, Pagination, PagingActions } from '@/types/table';
+import { chunkArray } from '@/utils/arrays';
 
 interface ReturnValue<T = Record<string, string>> {
   paginationActions: PagingActions;
@@ -9,7 +9,7 @@ interface ReturnValue<T = Record<string, string>> {
   pagination: Pagination;
 }
 
-export default function useTableData<T = Record<string, string>>(
+export function useTableData<T = Record<string, string>>(
   data: T[]
 ): ReturnValue<T> {
   const [page, setPage] = useState(1);

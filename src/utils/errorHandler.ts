@@ -1,6 +1,6 @@
 import { toast } from 'sonner';
 
-export function asyncErrorHandler(error: unknown) {
+export function commonErrorHandler(error: unknown) {
   if (!(error instanceof Error)) {
     toast.error('Unhandled error');
     return;

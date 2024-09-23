@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { parse } from 'papaparse';
 
-import { CSV, RowData } from '../types/csv';
-import { asyncErrorHandler } from '../utils/errorHandler';
+import { CSV, RowData } from '@/types/csv';
+import { commonErrorHandler } from '@/utils/errorHandler';
 
 interface State {
   isLoading: boolean;
@@ -72,7 +72,7 @@ export const useCSVStore = create<State & Actions>()(
           worker: true,
         });
       } catch (error) {
-        asyncErrorHandler(error);
+        commonErrorHandler(error);
       }
     },
 

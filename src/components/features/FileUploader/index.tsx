@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { FilePlusIcon } from 'lucide-react';
 import { Flex, Spinner } from '@radix-ui/themes';
 
-import { useFileUploader } from '../hooks/useFileUploader';
+import { useFileUploader } from '@/hooks/useFileUploader';
 
 interface Props {
   isLoading?: boolean;
@@ -10,7 +10,7 @@ interface Props {
   onFileChange: (files: File[]) => Promise<void>;
 }
 
-export default function FileUploader({
+export function FileUploader({
   isLoading = false,
   isFileEmpty = true,
   onFileChange,

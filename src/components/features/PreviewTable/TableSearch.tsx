@@ -1,7 +1,7 @@
 import { TextField } from '@radix-ui/themes';
 import { SearchIcon } from 'lucide-react';
 
-export default function TableSearch() {
+export function TableSearch() {
   return (
     <TextField.Root placeholder="Search the docs…">
       <TextField.Slot>

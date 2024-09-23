@@ -14,7 +14,7 @@ interface Props {
   onPageChanged(page: number): void;
 }
 
-export default function TablePagination({
+export function TablePagination({
   totalPages,
   page,
   onPreviousClick,

@@ -1,13 +1,13 @@
 import { Badge, Flex, Spinner, Table, Text } from '@radix-ui/themes';
 
-import useTableData from '@/lib/hooks/useTableData';
-import { numberFormatter } from '@/lib/utils/formatter';
+import { useTableData } from '@/hooks/useTableData';
+import { numberFormatter } from '@/utils/formatter';
+import { RowData } from '@/types/csv';
 
-import TableBody from './TableBody';
-import TableHeader from './TableHeader';
-import TablePagination from './TablePagination';
-import TablePerPage from './TablePerPage';
-import { RowData } from '../types/csv';
+import { TableBody } from './TableBody';
+import { TableHeader } from './TableHeader';
+import { TablePagination } from './TablePagination';
+import { TablePerPage } from './TablePerPage';
 
 interface Props {
   dataSource: RowData[];
@@ -16,7 +16,7 @@ interface Props {
   isLoaded: boolean;
 }
 
-export default function PreviewTable({
+export function PreviewTable({
   dataSource = [],
   columns = [],
   isLoading = false,

@@ -1,5 +1,5 @@
 import { parse, ParseConfig, ParseResult } from 'papaparse';
-import { RowData } from '../types/csv';
+import { RowData } from '@/types/csv';
 
 const defaultConfig: ParseConfig = {
   delimitersToGuess: [',', ';'],

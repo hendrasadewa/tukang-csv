@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-import { useCSVStore } from '@/lib/stores/useCSVStore';
-import { useFileManagerStore } from '@/lib/stores/useFileManagerStore';
+import { useCSVStore } from '@/stores/useCSVStore';
+import { useFileManagerStore } from '@/stores/useFileManagerStore';
 
 interface State {
   isLoading: boolean;

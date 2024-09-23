@@ -1,6 +1,7 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
 
-import { StoredFile } from '../types/file';
+import { StoredFile } from '@/types/file';
+
 import { FileListItem } from './FileListItem';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
   isLoading: boolean;
 }
 
-export default function FileList({
+export function FileList({
   selectedId,
   files,
   onPreviewClick,

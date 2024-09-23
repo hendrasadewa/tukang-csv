@@ -1,12 +1,12 @@
 import { Flex, Heading, Tooltip } from '@radix-ui/themes';
 
-import FileList from '@/lib/components/FileList';
-import PreviewTable from '@/lib/components/PreviewTable';
-import FrameTemplate from '@/lib/components/FrameTemplate';
-import FileUploader from '@/lib/components/FileUploader';
-import { useFileManagerStore } from '@/lib/stores/useFileManagerStore';
-import { useDashboardStore } from '@/lib/stores/useDashboardStore';
-import { useCSVStore } from '@/lib/stores/useCSVStore';
+import { FileList } from '@/components/features/FileList';
+import { PreviewTable } from '@/components/features/PreviewTable';
+import { FileUploader } from '@/components/features/FileUploader';
+import { FrameTemplate } from '@/components/templates/FrameTemplate';
+import { useFileManagerStore } from '@/stores/useFileManagerStore';
+import { useDashboardStore } from '@/stores/useDashboardStore';
+import { useCSVStore } from '@/stores/useCSVStore';
 
 export function DashboardPage() {
   const handleLoadFiles = useFileManagerStore((s) => s.loadFiles);
