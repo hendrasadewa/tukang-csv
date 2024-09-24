@@ -1,4 +1,4 @@
-import { Button, Flex } from '@radix-ui/themes';
+import { Button, Flex, Text } from '@radix-ui/themes';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -33,13 +33,12 @@ export function TablePagination({
   };
 
   return (
-    <Flex align="center" gap="2" p="2">
+    <Flex align="center" gap="2">
       <Button
         disabled={isPrevDisabled}
         variant="ghost"
         onClick={handleFirstClick}
         size="1"
-        color="gray"
       >
         <ChevronsLeftIcon />
       </Button>
@@ -48,19 +47,15 @@ export function TablePagination({
         variant="ghost"
         onClick={onPreviousClick}
         size="1"
-        color="gray"
       >
         <ChevronLeftIcon />
       </Button>
-      <Button variant="ghost" size="1" color="gray" mx="3" disabled>
-        {page}
-      </Button>
+      <Text mx="3">{page}</Text>
       <Button
         disabled={isNextDisabled}
         variant="ghost"
         onClick={onNextClick}
         size="1"
-        color="gray"
       >
         <ChevronRightIcon />
       </Button>
@@ -70,7 +65,6 @@ export function TablePagination({
         variant="ghost"
         onClick={handleLastClick}
         size="1"
-        color="gray"
       >
         <ChevronsRightIcon />
       </Button>

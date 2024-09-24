@@ -9,12 +9,12 @@ export function FileList() {
     useShallow((s) => ({
       fileList: s.fileIds.map((id) => s.fileRecord[id]),
       selectedFileId: s.selectedFileId,
-      isLoading: s.isLoading,
+      isLoading: s.isParsing,
       onSelectFile: s.onSelectFile,
     }))
   );
   return (
-    <Box p="2">
+    <Box px="2">
       {fileList.length <= 0 && <Text>File is empty</Text>}
       <Flex direction="column" gap="2">
         {fileList.map(({ file, id }) => (

@@ -6,7 +6,7 @@ interface Props {
 
 export function TableHeader({ columns }: Props) {
   return (
-    <Table.Header>
+    <Table.Header className="sticky top-0 bg-white/35 backdrop-blur-sm">
       <Table.Row>
         {columns.map((column) => (
           <Table.ColumnHeaderCell key={column} style={{ whiteSpace: 'nowrap' }}>

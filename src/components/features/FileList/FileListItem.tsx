@@ -41,7 +41,9 @@ export function FileListItem({
       onClick={handleCardClick}
       className={[
         'transition-shadow',
-        isActive ? 'bg-blue-200 shadow-lg' : '',
+        'hover:shadow',
+        'cursor-pointer',
+        isActive ? 'bg-gray-200 shadow-lg' : '',
       ].join(' ')}
     >
       <div className="flex items-center gap-2">

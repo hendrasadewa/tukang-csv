@@ -11,7 +11,7 @@ import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Theme>
+    <Theme accentColor="gray">
       <Toaster position="bottom-center" />
       <RouterProvider router={browserRouter} />
     </Theme>

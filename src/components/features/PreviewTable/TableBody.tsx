@@ -8,9 +8,9 @@ interface Props {
 
 export function TableBody({ columns, displayedData = [] }: Props) {
   return (
-    <Table.Body>
+    <Table.Body className="min-h-full">
       {displayedData.map((row, rowIndex) => (
-        <Table.Row className="hover:bg-blue-50" key={`data-${rowIndex}`}>
+        <Table.Row className="hover:bg-gray-50" key={`data-${rowIndex}`}>
           {columns.map((column, columnIndex) => (
             <Table.Cell
               style={{ whiteSpace: 'nowrap' }}

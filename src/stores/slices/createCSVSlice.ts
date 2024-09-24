@@ -5,7 +5,7 @@ import type { CSVSliceState } from '../contracts';
 
 export const createCSVSlice: CSVSliceState = (set, get) => ({
   // state
-  isLoading: false,
+  isParsing: false,
   csvRecord: {},
   csvIds: [],
   // actions
@@ -31,7 +31,7 @@ export const createCSVSlice: CSVSliceState = (set, get) => ({
   async parseCSV(id) {
     try {
       set((draft) => {
-        draft.isLoading = true;
+        draft.isParsing = true;
       });
 
       const csv = get().csvRecord[id];
@@ -48,7 +48,7 @@ export const createCSVSlice: CSVSliceState = (set, get) => ({
             }
             draft.csvRecord[id].json = results.data as RowData[];
             draft.csvRecord[id].status = 'parsed';
-            draft.isLoading = false;
+            draft.isParsing = false;
           });
         },
         header: true,

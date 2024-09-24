@@ -11,7 +11,7 @@ export function FileUploader() {
     useShallow((s) => ({
       onLoadFiles: s.loadFiles,
       isFileEmpty: s.fileIds.length <= 0,
-      isLoading: s.isLoading,
+      isLoading: s.isParsing,
     }))
   );
   const { fileInputRef, fileList, handleFileChange } = useFileUploader();
@@ -32,7 +32,6 @@ export function FileUploader() {
 
   return (
     <label htmlFor="file-uploader">
-      {isLoading && <Spinner />}
       <Flex align="center" justify="center" className="h-full">
         {isLoading ? <Spinner /> : <FilePlusIcon strokeWidth="1" />}
       </Flex>

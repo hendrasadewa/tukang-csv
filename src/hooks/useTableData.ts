@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { DataSource, Pagination, PagingActions } from '@/types/table';
 import { chunkArray } from '@/utils/arrays';
@@ -28,19 +28,22 @@ export function useTableData<T = Record<string, string>>(
     [page, totalPage]
   );
 
-  const onChangePage = (page: number) => {
-    if (page <= 0) {
-      setPage(1);
-      return;
-    }
+  const onChangePage = useCallback(
+    (page: number) => {
+      if (page <= 0) {
+        setPage(1);
+        return;
+      }
 
-    if (page > totalPage) {
-      setPage(totalPage);
-      return;
-    }
+      if (page > totalPage) {
+        setPage(totalPage);
+        return;
+      }
 
-    setPage(page);
-  };
+      setPage(page);
+    },
+    [totalPage]
+  );
 
   const onPerPageChanged = (perPage: number) => {
     setPerPage(perPage);

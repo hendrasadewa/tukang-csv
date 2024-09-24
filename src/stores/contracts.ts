@@ -3,7 +3,7 @@ import { StoredFile } from '@/types/file';
 import { StateCreator } from 'zustand';
 
 export interface CSVSlice {
-  isLoading: boolean;
+  isParsing: boolean;
   csvIds: string[];
   csvRecord: Record<string, CSV>;
   // actions

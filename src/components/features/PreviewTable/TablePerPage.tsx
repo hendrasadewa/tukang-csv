@@ -10,6 +10,7 @@ const PERPAGE_SELECTION = [
   { id: nanoid(), value: '10' },
   { id: nanoid(), value: '25' },
   { id: nanoid(), value: '50' },
+  { id: nanoid(), value: '100' },
 ];
 
 export function TablePerPage({ perPage, onPerPageChanged }: Props) {

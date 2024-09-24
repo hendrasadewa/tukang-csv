@@ -1,29 +1,30 @@
-import { Badge, Flex, Spinner, Table, Text } from '@radix-ui/themes';
+import { Box, Flex, Spinner, Table, Text } from '@radix-ui/themes';
+import { useShallow } from 'zustand/react/shallow';
+import { useEffect } from 'react';
 
+import { useAppStore } from '@/stores/useAppStore';
 import { useTableData } from '@/hooks/useTableData';
-import { numberFormatter } from '@/utils/formatter';
 
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
-import { TablePagination } from './TablePagination';
-import { TablePerPage } from './TablePerPage';
-import { useAppStore } from '@/stores/useAppStore';
-import { useShallow } from 'zustand/react/shallow';
+import { TableNavigation } from './TableNavigation';
+import { TableFeatureMenu } from './TableFeatureMenu';
+import { BoxIcon } from 'lucide-react';
 
 export function PreviewTable() {
   const {
     dataSource = [],
     columns = [],
     isLoading = false,
-    isLoaded = false,
   } = useAppStore(
     useShallow((s) => ({
       dataSource: s.csvRecord[s.selectedFileId]?.json,
       columns: s.csvRecord[s.selectedFileId]?.fields,
-      isLoaded: s.csvRecord[s.selectedFileId]?.status === 'parsed',
-      isLoading: s.isDashboardLoading,
+      isLoading: s.isParsing,
     }))
   );
+
+  const selectedFileId = useAppStore((s) => s.selectedFileId);
 
   const {
     paginationActions: {
@@ -36,48 +37,58 @@ export function PreviewTable() {
     pagination: { page, perPage, totalItem, totalPage },
   } = useTableData(dataSource);
 
+  useEffect(() => {
+    onChangePage(1);
+  }, [onChangePage, selectedFileId]);
+
   return (
-    <>
-      <Flex align="center" justify="between" px="3">
-        <Badge variant="outline">
-          {(page - 1) * perPage + 1} - {page * perPage} of &nbsp;
-          {numberFormatter.format(totalItem)} data
-        </Badge>
-        {isLoaded && (
-          <Flex align="center" gap="2" px="2">
-            <TablePerPage
-              onPerPageChanged={onPerPageChanged}
-              perPage={perPage}
-            />
-            <TablePagination
-              page={page}
-              totalPages={totalPage}
-              onPageChanged={onChangePage}
-              onPreviousClick={onPrevPage}
-              onNextClick={onNextPage}
-            />
-          </Flex>
-        )}
+    <Flex direction="column" justify="center" className="h-full" px="2">
+      <Flex className="h-12">
+        <TableFeatureMenu />
       </Flex>
-      <div>
+      <Flex className="border rounded-lg flex-1 overflow-y-scroll relative">
         {isLoading && (
           <Flex
             align="center"
             justify="center"
-            gap="2"
-            className="w-full h-full bg-white/90 z-10"
+            height="100%"
+            width="100%"
+            className="bg-white/70 absolute top-0 left-0 backdrop-blur-sm z-10"
           >
-            <Spinner />
-            <Text>Loading Preview...</Text>
+            <Spinner size="3" />
+            <Text ml="1">Loading Contents</Text>
           </Flex>
         )}
-        {isLoaded && (
-          <Table.Root>
-            <TableHeader columns={columns} />
-            <TableBody columns={columns} displayedData={displayed} />
-          </Table.Root>
+        {!isLoading && columns.length <= 0 && (
+          <Flex
+            align="center"
+            justify="center"
+            height="100%"
+            width="100%"
+            className="bg-white/70 absolute top-0 left-0 backdrop-blur-sm z-10"
+          >
+            <BoxIcon />
+            <Text ml="1">Upload and select file to display</Text>
+          </Flex>
         )}
-      </div>
-    </>
+
+        <Table.Root className="h-[100%] w-full" layout="auto">
+          <TableHeader columns={columns} />
+          <TableBody columns={columns} displayedData={displayed} />
+        </Table.Root>
+      </Flex>
+      <Box>
+        <TableNavigation
+          page={page}
+          perPage={perPage}
+          totalItem={totalItem}
+          totalPage={totalPage}
+          onPerPageChanged={onPerPageChanged}
+          onChangePage={onChangePage}
+          onPrevPage={onPrevPage}
+          onNextPage={onNextPage}
+        />
+      </Box>
+    </Flex>
   );
 }
